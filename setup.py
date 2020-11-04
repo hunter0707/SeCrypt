@@ -76,8 +76,7 @@ class Window(Frame):
                 self.randomize_button.configure(state='disabled')
 
                 break #pw is secure
-            else:
-                pw = ''
+            pw = ''
             
     def view(self):
         v_time = self.v_time
