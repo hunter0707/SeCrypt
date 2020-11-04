@@ -22,7 +22,8 @@ class Window(Frame):
         self.unlock_button.pack()
         self.status.pack()
 
-    def reset(self):
+    @staticmethod
+    def reset():
         for i in listdir('settings'):
             remove('settings/' + i)
         subprocess.check_call(['attrib', '-H', 'setup.py'])

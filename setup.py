@@ -111,7 +111,8 @@ class Window(Frame):
                 return False
         return True and len(pw) >= 6
 
-    def secure(self, pw): #checks security of password
+    @staticmethod
+    def secure(pw): #checks security of password
         letter = False
         digit = False
 
