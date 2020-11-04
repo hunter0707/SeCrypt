@@ -1,4 +1,5 @@
 import string
+import sys
 import time
 from tkinter import *
 import random
@@ -48,7 +49,7 @@ class Window(Frame):
             self.reset()
 
             def Exit():
-                exit()
+                sys.exit()
 
             root.after(3000, Exit) #bye
         else:
