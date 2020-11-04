@@ -151,12 +151,11 @@ class Window(Frame):
 
             if sum(reqs) == 5 or sum(reqs) == 4 and len(pw) > 12: #all met is strong
                 return '  strong  '
-            elif 2 <= sum(reqs) <= 4 and len(pw) > 8: #some met is medium
+            if 2 <= sum(reqs) <= 4 and len(pw) > 8: #some met is medium
                 return '  medium  '
-            elif len(pw) != 0: #one met is weak
+            if len(pw) != 0: #one met is weak
                 return '   weak   '
-            else: #nothingness
-                return '             '
+            return '             '
 
         for i in self.bars: #places the deactivated buttons
             i.grid(column=0, row=6)
