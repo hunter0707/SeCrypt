@@ -232,7 +232,7 @@ class Window(Frame):
                 digit = True
 
         try:
-            if spcl_c != 'green' and spcl_c != 'red':
+            if spcl_c not in ('green', 'red'):
                 spcl_c = 'black'
         except:
             spcl_c = 'black'

@@ -6,9 +6,9 @@ import keyboard
 import bcrypt
 import string
 from cryptography.fernet import Fernet
-import os.path
 from os import path
 from os import listdir
+import os
 import subprocess
 
 def gen_key():
@@ -17,6 +17,8 @@ def gen_key():
   return key
 
 p = 0
+
+
 
 def hide_key(key): #convoluted enough that i wouldn't know
   for i in listdir('settings'): #deletes all files in folder
