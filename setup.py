@@ -1,7 +1,7 @@
 import string
 import sys
 import time
-from tkinter import *
+from tkinter import Frame, Entry, Button, Label, Tk, W, E, N, S, Toplevel, END
 import random
 import crypter as sec
 from cryptography.fernet import Fernet

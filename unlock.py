@@ -1,7 +1,7 @@
 import string
 import sys
 import time
-from tkinter import *
+from tkinter import Frame, Entry, Button, Label, Tk
 import random
 import crypter as sec
 from cryptography.fernet import Fernet
@@ -54,9 +54,6 @@ class Window(Frame):
             root.after(3000, Exit) #bye
         else:
             self.status.configure(text='Password incorrect.', fg='red')
-
-
-
 
 root = Tk()
 app = Window(root)
