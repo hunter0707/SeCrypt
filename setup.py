@@ -60,8 +60,8 @@ class Window(Frame):
     def randomize(self):
         pw = ''
         while True:
-            for i in range(16):
-                pw += random.choice(self.legal_chars)
+            for _ in range(16): pw += random.choice(self.legal_chars)
+            
             if self.secure(pw):
                 #enables entry boxes and empties them before inserting
                 self.pw1.configure(state='normal')
