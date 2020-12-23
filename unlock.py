@@ -2,6 +2,7 @@ import string
 import sys
 import time
 from tkinter import Frame, Entry, Button, Label, Tk
+from tkinter.filedialog import askopenfilename
 import random
 import crypter as sec
 from cryptography.fernet import Fernet

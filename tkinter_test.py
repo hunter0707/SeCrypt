@@ -9,71 +9,36 @@ from cryptography.fernet import Fernet
 from os import listdir
 import subprocess
 
-def clear_frame():
-    print('hi')
-    for widget in app.winfo_children():
-        print(widget)
-        widget.destroy()
-
-    app.pack_forget()
-
 class Window(Frame):
-    def __init__(self, master=None):
+    def __init__(self, master = None):
         Frame.__init__(self, master)
         self.legal_chars = string.ascii_letters + string.digits + string.punctuation
         self.master = master
         self.match_status = ''
-        self.start_win()
-
-        #self.choose_file_win()
+        self.choose_file_win()
         #self.setpass()
         #self.strength_meter()
         self.v_time = 60
 
-    def clear_frame(self):
-        for widget in app.winfo_children():
-            print(widget)
-            widget.destroy()
-
-    def start_win(self):
-        #clear_frame()
-        self.master.title('SeCrypt')
-        self.lock_file_btn = Button(text='Lock', command=self.choose_file_win)
-        self.unlock_file_btn = Button(text='Unlock', command=self.unlock_win)
-
-        self.lock_file_btn.pack()
-        self.unlock_file_btn.pack()
-
-    def unlock_win(self):
-        clear_frame()
-        self.master.title('Unlock')
-        self.u_entry = Entry(show='*')
-        self.unlock_button = Button(text='unlock', command=self.unlock)
-        self.enter = Label(text='Enter Password:')
-        self.status = Label(text='')
-
-        self.enter.pack()
-        self.u_entry.pack()
-        self.unlock_button.pack()
-        self.status.pack()
-
     def choose_file_win(self):
-        clear_frame()
         self.master.title('Choose File')
         self.lock_file = Label(text='Select a file to lock: ')
-        self.lock_file.pack()
+        self.lock_file.grid(sticky='E')
         self.target_file = ''
         self.selected_file = Label(text='Selected File: None')
-        self.selected_file.pack()
+        self.selected_file.grid(row=1, column=0)
 
         self.choose_file_button = Button(text='Select File', command=self.choose_file)
-        self.choose_file_button.pack()
+        self.choose_file_button.grid(row=2, column=0)
         
         self.set_password_button = Button(text='Set Password', command=self.set_pass_win, state='disabled')
-        self.set_password_button.pack()
+        self.set_password_button.grid(row=3, column=0)
 
     def set_pass_win(self):
-        clear_frame()
+        self.choose_file_button.destroy()
+        self.selected_file.destroy()
+        self.set_password_button.destroy()
+        self.lock_file.destroy()
         self.setpass()
         self.strength_meter()
 

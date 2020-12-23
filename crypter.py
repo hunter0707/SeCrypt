@@ -18,8 +18,6 @@ def gen_key():
 
 p = 0
 
-
-
 def hide_key(key): #convoluted enough that i wouldn't know
   for i in listdir('settings'): #deletes all files in folder
     os.remove('settings/' + i)
@@ -100,5 +98,8 @@ def decrypt(f_add: str, e: object):
     e_data = e.decrypt(data)
   with open(f_add, 'wb') as f:
     f.write(e_data)
+
+def unlock():
+  pass
 
 #decrypt(listdir('files'))
