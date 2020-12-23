@@ -4,12 +4,11 @@ simple file security solution
 
 Current functions:
 - basic GUI built using Tkinter
-- locks all files within a folder using bcrypt and Fernet
+- locks selected file using Fernet
 - allows for random generation of passwords
-- hides hash key and pass keys using ADS
+- currently does not function because I tried to make a change but everything is kind of messed up now :(
 
 Future implementations:
-- selection of individual files (currently locks all in "files" folder)
 - hide hash and pass keys in file using ADS
 - locked files when opened with run python script to open tkinter window to prompt unlocking
 - 2FA and/or mobile authentication
