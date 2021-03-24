@@ -1,6 +1,6 @@
 # SeCrypt
 
-simple file security solution
+very simple file security system built with python using Tkinter and Fernet
 
 Current functions:
 - basic GUI built using Tkinter
