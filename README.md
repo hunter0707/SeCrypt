@@ -7,7 +7,7 @@ Current functions:
 - locks selected file using Fernet
 - allows for random generation of passwords
 
-Future implementations:
+Possible future implementations:
 - locked files when opened will run python script to open tkinter window to prompt unlocking
 - 2FA and/or mobile authentication
 - salting of passwords
