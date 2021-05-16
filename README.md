@@ -15,6 +15,8 @@ Possible future implementations:
 
 basically everything is hardcoded and isn't great but I did this for fun to learn how to use Tkinter and some basic encryption, so if you want to use this for whatever reasons instead of the other (better) apps out there, your files will not be very secure.
 
+Couple screenshots: 
+
 Initial setup:
 
 ![secrypt 2](https://user-images.githubusercontent.com/34012681/118382349-9e9f2200-b5b1-11eb-8b72-399c1766356e.PNG)
