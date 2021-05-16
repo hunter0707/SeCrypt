@@ -1,29 +1,94 @@
 import string
+import sys
 import time
-from tkinter import *
+from tkinter import Frame, Entry, Button, Label, Tk, W, E, N, S, Toplevel, END, CENTER
+from tkinter.filedialog import askopenfilename
 import random
 import crypter as sec
 from cryptography.fernet import Fernet
 from os import listdir
 import subprocess
 
+def clear_frame():
+    print('hi')
+    for widget in app.winfo_children():
+        print(widget)
+        widget.destroy()
+
+    app.pack_forget()
+
 class Window(Frame):
-    def __init__(self, master = None):
+    def __init__(self, master=None):
         Frame.__init__(self, master)
         self.legal_chars = string.ascii_letters + string.digits + string.punctuation
         self.master = master
         self.match_status = ''
-        self.setup()
+        self.start_win()
+
+        #self.choose_file_win()
+        #self.setpass()
+        #self.strength_meter()
+        self.v_time = 60
+
+    def clear_frame(self):
+        for widget in app.winfo_children():
+            print(widget)
+            widget.destroy()
+
+    def start_win(self):
+        #clear_frame()
+        self.master.title('SeCrypt')
+        self.lock_file_btn = Button(text='Lock', command=self.choose_file_win)
+
+        self.lock_file_btn.pack()
+
+    def unlock_win(self):
+        clear_frame()
+        self.master.title('Unlock')
+        self.u_entry = Entry(show='*')
+        self.unlock_button = Button(text='unlock', command=self.unlock)
+        self.enter = Label(text='Enter Password:')
+        self.status = Label(text='')
+
+        self.enter.pack()
+        self.u_entry.pack()
+        self.unlock_button.pack()
+        self.status.pack()
+
+    def choose_file_win(self):
+        clear_frame()
+        self.master.title('Choose File')
+        self.lock_file = Label(text='Select a file to lock: ')
+        self.lock_file.pack()
+        self.target_file = ''
+        self.selected_file = Label(text='Selected File: None')
+        self.selected_file.pack()
+
+        self.choose_file_button = Button(text='Select File', command=self.choose_file)
+        self.choose_file_button.pack()
         
+        self.set_password_button = Button(text='Set Password', command=self.set_pass_win, state='disabled')
+        self.set_password_button.pack()
+
+    def set_pass_win(self):
+        clear_frame()
+        self.setpass()
+        self.strength_meter()
+
+    def choose_file(self):
+        self.target_file = askopenfilename()
+        self.selected_file.configure(text = 'Selected File: ' + self.target_file.split('/')[-1])
+        self.selected_file.grid(row=1, column=0)
+        self.choose_file_button.configure(text = 'Reselect File')
+        self.set_password_button.configure(state='normal')
+    
+    def setpass(self):
         self.bars = [Button(text='         ', state='disabled', bg='white') for i in range(3)]
         self.bars[0].grid(sticky=W) #bar1 left, for password strength
         self.bars[2].grid(sticky=E) #bar3 right, bar2 centered
-        self.strength_meter()
-        self.v_time = 60
-        
-    def setup(self):
+
         self.pw_confirmed = False
-        self.master.title('Setup')
+        self.master.title('Set Password')
 
         self.label_pw = Label(text='Password:')
         self.label_pw.grid(row=0, columnspan=2)
@@ -48,7 +113,7 @@ class Window(Frame):
         self.confirm_pw_button = Button(text=' Confirm ', command=self.confirm_pw, state='disabled')
         self.confirm_pw_button.grid(column=1, row=6, sticky='E')
 
-        self.cancel_button = Button(text='    Reset    ', command=self.setup) #sticky='W' once confirmed
+        self.cancel_button = Button(text='    Reset    ', command=self.setpass) #sticky='W' once confirmed
         self.view_button = Button(text='    View    ', command=self.view, state='disabled')
         self.randomize_button = Button(text='Randomize', command=self.randomize)
 
@@ -59,8 +124,8 @@ class Window(Frame):
     def randomize(self):
         pw = ''
         while True:
-            for i in range(16):
-                pw += random.choice(self.legal_chars)
+            for _ in range(16): pw += random.choice(self.legal_chars)
+            
             if self.secure(pw):
                 #enables entry boxes and empties them before inserting
                 self.pw1.configure(state='normal')
@@ -75,8 +140,7 @@ class Window(Frame):
                 self.randomize_button.configure(state='disabled')
 
                 break #pw is secure
-            else:
-                pw = ''
+            pw = ''
             
     def view(self):
         v_time = self.v_time
@@ -111,7 +175,8 @@ class Window(Frame):
                 return False
         return True and len(pw) >= 6
 
-    def secure(self, pw): #checks security of password
+    @staticmethod
+    def secure(pw): #checks security of password
         letter = False
         digit = False
 
@@ -150,12 +215,11 @@ class Window(Frame):
 
             if sum(reqs) == 5 or sum(reqs) == 4 and len(pw) > 12: #all met is strong
                 return '  strong  '
-            elif 2 <= sum(reqs) <= 4 and len(pw) > 8: #some met is medium
+            if 2 <= sum(reqs) <= 4 and len(pw) > 8: #some met is medium
                 return '  medium  '
-            elif len(pw) != 0: #one met is weak
+            if len(pw) != 0: #one met is weak
                 return '   weak   '
-            else: #nothingness
-                return '             '
+            return '             '
 
         for i in self.bars: #places the deactivated buttons
             i.grid(column=0, row=6)
@@ -183,7 +247,7 @@ class Window(Frame):
         root.after(100, self.strength_meter)
         root.after(100, self.pw_status)
 
-    def confirm_pw(self): #locks basically everything
+    def confirm_pw(self): #locks basically all the buttons
         self.pw1.configure(state='disabled')
         self.pw2.configure(state='disabled')
         self.confirm_pw_button.configure(text='    Lock    ', command=self.lock, bg='red')
@@ -262,8 +326,7 @@ class Window(Frame):
             key = sec.gen_key()
             f_encrypt = Fernet(key)
 
-            for i in listdir('files'): #encrypt all files w/ my function
-                sec.encrypt('files/' + i, f_encrypt)
+            sec.encrypt('files/' + i, f_encrypt)
 
             pw = self.pw1.get().encode()
             pw = f_encrypt.encrypt(pw) #encyrpted pw
@@ -272,14 +335,14 @@ class Window(Frame):
             f.write(pw)
             f.close()
 
-            #hides and unhides
-            subprocess.check_call(['attrib', '+H', 'setup.py']) 
-            subprocess.check_call(['attrib', '-H', 'unlock.py'])
+            #hides and unhides -> most likely no longer needed (12/17/2020)
+            #subprocess.check_call(['attrib', '+H', 'setup.py'])
+            #subprocess.check_call(['attrib', '-H', 'unlock.py'])
 
             self.label_char.configure(text='                              Success!                              ')
 
             def Exit():
-                exit()
+                sys.exit()
 
             root.after(3000, Exit) #bye
 
